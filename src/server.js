@@ -36,10 +36,10 @@ app.get("/users", async (req, res) => {
 // make a create user route
 app.post("/user", async (req, res) => {
   try {
-    const { name, email,  bio} = req.body;
+    const { name, email,  bio, true_duck } = req.body;
     const newUser = await pool.query(
-      "INSERT INTO users (name, email, bio) VALUES($1, $2, $3) RETURNING *",
-      [name, email, bio]
+      "INSERT INTO users (name, email, bio, true_duck) VALUES($1, $2, $3, $4) RETURNING *",
+      [name, email, bio, true_duck]
     );
     res.json(newUser.rows[0]);
   } catch (error) {
@@ -58,7 +58,7 @@ app.get("/saved", async (req, res) => {
 });
 
 // save a user
-app.post("/saved", async (req, res) => {
+app.post("/save", async (req, res) => {
   try {
     const { user_id } = req.body;
     const newSaved = await pool.query(
